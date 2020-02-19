@@ -8,8 +8,7 @@ package com.signalfx.training;
  *
  */
 
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -22,12 +21,6 @@ import javax.money.format.MonetaryFormats;
 
 import java.util.AbstractMap;
 import java.util.Locale;
-
-import com.signalfx.tracing.api.Trace;
-  
-import io.opentracing.Scope;
-import io.opentracing.Tracer;
-import io.opentracing.util.GlobalTracer;
 
 
 public class SfxCurrencyConverter {
@@ -52,7 +45,7 @@ public class SfxCurrencyConverter {
     		);
     
     
-    // TODO take parameter
+
     public static void main(String[] args) throws Exception {
        if (args.length < 1) {
     	   System.err.println("Please enter an amount to convert !!");
