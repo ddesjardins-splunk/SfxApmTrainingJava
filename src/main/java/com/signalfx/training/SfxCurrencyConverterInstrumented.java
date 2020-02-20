@@ -19,6 +19,8 @@ import javax.money.convert.MonetaryConversions;
 import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryFormats;
 
+import com.signalfx.tracing.api.Trace;
+
 import java.util.AbstractMap;
 import java.util.Locale;
 
@@ -62,40 +64,30 @@ public class SfxCurrencyConverterInstrumented {
       }   
     }
     
+    @Trace(operationName = "doConversion")
     private void doConversion ( BigDecimal amount, String fromCurrency, String fromLocale,  String toCurrency, String toLocale) {
-    	
-    	 final Span span = tracer.buildSpan("doConverstion").start();
-    	    try (Scope scope = tracer.scopeManager().activate(span)) {
-    	    	span.setTag("Converting "+ amount.toString(),  " From:" + fromLocale + " To:"+toLocale);
-    	        MonetaryAmount fromAmount = Monetary.getDefaultAmountFactory().setCurrency(fromCurrency).setNumber(amount).create();
-    			CurrencyConversion conversion = MonetaryConversions.getConversion(toCurrency);
-    			MonetaryAmount convertedCurrency = fromAmount.with(conversion);
-    			 
-    			 MonetaryAmountFormat formatUS = MonetaryFormats.getAmountFormat(Locale.US);
-    			 String formatted = formatUS.format(convertedCurrency);
-    			 
-    			 System.out.println(amount + " in " + fromLocale + " (" + fromCurrency + ") is equivalent to " + formatted + " in " + toLocale );	
-    			
-    	    } finally {
-    	       span.finish();
-    	    }
-    	
+    	MonetaryAmount fromAmount = Monetary.getDefaultAmountFactory().setCurrency(fromCurrency).setNumber(amount).create();
+		 CurrencyConversion conversion = MonetaryConversions.getConversion(toCurrency);
+		 MonetaryAmount convertedCurrency = fromAmount.with(conversion);
+		 
+		 MonetaryAmountFormat formatUS = MonetaryFormats.getAmountFormat(Locale.US);
+		 String formatted = formatUS.format(convertedCurrency);
+		 
+		 System.out.println(amount + " in " + fromLocale + " (" + fromCurrency + ") is equivalent to " + formatted + " in " + toLocale );	
     }
 
+    @Trace(operationName = "convertMyAmount")
     private void convertMyAmount(BigDecimal amount) {
-    	
-    	final Span span = tracer.buildSpan("convertMyAmount").start();
-    	try (Scope scope = tracer.scopeManager().activate(span)) {
-    		for (Map.Entry<String,String> from : fromMap.entrySet())  { 
-    			//System.out.println("Key = " + from.getKey() + ", Value = " + from.getValue()); 
-    			for (Map.Entry<String,String> to : toMap.entrySet())  {
-    				//System.out.println("Key = " + to.getKey() +  ", Value = " + to.getValue());
-    				doConversion ( amount, from.getValue(),  from.getKey(), to.getValue(), to.getKey() );
-    			}
-    		}
-    	} finally {
-    		span.finish();
-    	}
+    	 for (Map.Entry<String,String> from : fromMap.entrySet())  {
+    		 
+    		 //System.out.println("Key = " + from.getKey() + ", Value = " + from.getValue()); 
+    		 
+    		 for (Map.Entry<String,String> to : toMap.entrySet())  {
+    			 //System.out.println("Key = " + to.getKey() +  ", Value = " + to.getValue());
+    			 
+    			 doConversion ( amount, from.getValue(),  from.getKey(), to.getValue(), to.getKey() );
+    		 }
+    	 }
     }
     
 }
