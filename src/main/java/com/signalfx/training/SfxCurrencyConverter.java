@@ -49,23 +49,28 @@ public class SfxCurrencyConverter {
     
     
 
-public static void main(String[] args) throws Exception {
-		System.out.println("Please enter conversion amount: ");
-    	//Enter data using BufferReader 
-        BufferedReader reader =  
-                   new BufferedReader(new InputStreamReader(System.in)); 
-         
-        // Reading data using readLine 
-        String valueToConvert = reader.readLine(); 
-       if ( null == valueToConvert ) {
-    	   System.err.println("Please enter an amount to convert !!");
-    	   System.exit(1);
-      } else {
-        	converterInstance.convertMyAmount(new BigDecimal(valueToConvert));
-        	// The sleep is here below because the Tracer object is not fully shutdown when the app exits, thus throwing exeception
-        	// in production situations this will not be  the case as this is a short-lived application.
-        	Thread.sleep(3000);
-      }   
+    public static void main(String[] args) throws Exception {
+    	System.out.println("Please enter conversion amount: ");
+    	
+    	try {
+        		//Enter data using BufferReader 
+            	BufferedReader reader =  
+                       new BufferedReader(new InputStreamReader(System.in)); 
+             
+            	// Reading data using readLine 
+            	String valueToConvert = reader.readLine(); 
+            	if ( null == valueToConvert ) {
+            		System.err.println("Please enter an amount to convert !!");
+            		System.exit(1);
+            	} else {
+            		converterInstance.convertMyAmount(new BigDecimal(valueToConvert));
+            		// The sleep is here below because the Tracer object is not fully shutdown when the app exits, thus throwing exeception
+            		// in production situations this will not be  the case as this is a short-lived application.
+            		//Thread.sleep(3000);  	
+          }   
+        } catch (Exception e) {
+        	
+        }finally { System.exit(0);}
     }
  	
     /*
