@@ -13,8 +13,8 @@ How to build: ( linux )
     
 4. Set Environment Variables
 
-  # should not need endpoint URL unless Agent is on another host
-  #SIGNALFX_ENDPOINT_URL='http://localhost:9080/v1/trace' 
+  
+  #SIGNALFX_ENDPOINT_URL='http://localhost:9080/v1/trace' - only required if Agent is on another host
 
   SIGNALFX_INGEST_URL=https://ingest.us0.signalfx.com
   SIGNALFX_SERVICE_NAME=SfxCurrencyConverterInstrumented
