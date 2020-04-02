@@ -100,9 +100,9 @@ public static void main(String[] args) throws Exception {
 	@Trace(operationName = "doConversion")
     private void doConversion ( BigDecimal amount, String fromCurrency, String fromLocale,  String toCurrency, String toLocale) {
 
-   	 final Span span = s_tracer.buildSpan("doConversion").start();
-   	    try (Scope scope = s_tracer.scopeManager().activate(span)) {
-   	    	span.setTag("userid","userid");
+   	// final Span span = s_tracer.buildSpan("doConversion").start();
+   	  //  try (Scope scope = s_tracer.scopeManager().activate(span)) {
+  // 	    	span.setTag("userid","userid");
    	        MonetaryAmount fromAmount = Monetary.getDefaultAmountFactory().setCurrency(fromCurrency).setNumber(amount).create();
    			CurrencyConversion conversion = MonetaryConversions.getConversion(toCurrency);
    			MonetaryAmount convertedCurrency = fromAmount.with(conversion);
@@ -112,17 +112,17 @@ public static void main(String[] args) throws Exception {
 
    			 System.out.println(amount + " in " + fromLocale + " (" + fromCurrency + ") is equivalent to " + formatted + " in " + toLocale );	
 
-   	    } finally {
-   	       span.finish();
-   	    }
+   	  //  } finally {
+   	 //      span.finish();
+   	 //   }
 
    }
 
    @Trace(operationName = "convertMyAmount")
    private void convertMyAmount(BigDecimal amount) {
 
-   	final Span span = s_tracer.buildSpan("convertMyAmount").start();
-   		try (Scope scope = s_tracer.scopeManager().activate(span)) {
+   //	final Span span = s_tracer.buildSpan("convertMyAmount").start();
+   //		try (Scope scope = s_tracer.scopeManager().activate(span)) {
    			for (Map.Entry<String,String> from : fromMap.entrySet())  { 
    				//System.out.println("Key = " + from.getKey() + ", Value = " + from.getValue()); 
    				for (Map.Entry<String,String> to : toMap.entrySet())  {
@@ -130,9 +130,9 @@ public static void main(String[] args) throws Exception {
    					doConversion ( amount, from.getValue(),  from.getKey(), to.getValue(), to.getKey() );
    				}
    			}
-   		} finally {
-   		span.finish();
-   		}
+  // 		} finally {
+  // 		span.finish();
+ //; 		}
    }
 }
 
