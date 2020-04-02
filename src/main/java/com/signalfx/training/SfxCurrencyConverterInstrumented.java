@@ -1,5 +1,8 @@
 package com.signalfx.training;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 /**
  * 
  */
@@ -54,7 +57,27 @@ public class SfxCurrencyConverterInstrumented {
     		);
     
     
-
+    
+public static void main(String[] args) throws Exception {
+    	
+    	//Enter data using BufferReader 
+        BufferedReader reader =  
+                   new BufferedReader(new InputStreamReader(System.in)); 
+         
+        // Reading data using readLine 
+        String valueToConvert = reader.readLine(); 
+       if ( null == valueToConvert ) {
+    	   System.err.println("Please enter an amount to convert !!");
+    	   System.exit(1);
+      } else {
+        	converterInstance.convertMyAmount(new BigDecimal(valueToConvert));
+        	// The sleep is here below because the Tracer object is not fully shutdown when the app exits, thus throwing exeception
+        	// in production situations this will not be  the case as this is a short-lived application.
+        	Thread.sleep(3000);
+      }   
+    }
+ 	
+    /*
     public static void main(String[] args) throws Exception {
        if (args.length < 1) {
     	   System.err.println("Please enter an amount to convert !!");
@@ -66,13 +89,13 @@ public class SfxCurrencyConverterInstrumented {
         	Thread.sleep(3000);
       }   
     }
-   	
+ */  	
 	@Trace(operationName = "doConversion")
     private void doConversion ( BigDecimal amount, String fromCurrency, String fromLocale,  String toCurrency, String toLocale) {
 
-   	 final Span span = s_tracer.buildSpan("doConverstion").start();
+   	 final Span span = s_tracer.buildSpan("doConversion").start();
    	    try (Scope scope = s_tracer.scopeManager().activate(span)) {
-   	    	span.setTag("Converting "+ amount.toString(),  " From:" + fromLocale + " To:"+toLocale);
+   	    	span.setTag("userid","userid");
    	        MonetaryAmount fromAmount = Monetary.getDefaultAmountFactory().setCurrency(fromCurrency).setNumber(amount).create();
    			CurrencyConversion conversion = MonetaryConversions.getConversion(toCurrency);
    			MonetaryAmount convertedCurrency = fromAmount.with(conversion);

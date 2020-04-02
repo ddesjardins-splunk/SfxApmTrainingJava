@@ -3,6 +3,9 @@
  */
 package com.signalfx.training;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 /**
  * @author ddesjardins
  *
@@ -46,15 +49,38 @@ public class SfxCurrencyConverter {
     
     
 
+public static void main(String[] args) throws Exception {
+    	
+    	//Enter data using BufferReader 
+        BufferedReader reader =  
+                   new BufferedReader(new InputStreamReader(System.in)); 
+         
+        // Reading data using readLine 
+        String valueToConvert = reader.readLine(); 
+       if ( null == valueToConvert ) {
+    	   System.err.println("Please enter an amount to convert !!");
+    	   System.exit(1);
+      } else {
+        	converterInstance.convertMyAmount(new BigDecimal(valueToConvert));
+        	// The sleep is here below because the Tracer object is not fully shutdown when the app exits, thus throwing exeception
+        	// in production situations this will not be  the case as this is a short-lived application.
+        	Thread.sleep(3000);
+      }   
+    }
+ 	
+    /*
     public static void main(String[] args) throws Exception {
        if (args.length < 1) {
     	   System.err.println("Please enter an amount to convert !!");
     	   System.exit(1);
       } else {
         	converterInstance.convertMyAmount(new BigDecimal(args[0]));
+        	// The sleep is here below because the Tracer object is not fully shutdown when the app exits, thus throwing exeception
+        	// in production situations this will not be  the case as this is a short-lived application.
+        	Thread.sleep(3000);
       }   
     }
-    
+ */
     private void doConversion ( BigDecimal amount, String fromCurrency, String fromLocale,  String toCurrency, String toLocale) {
     	MonetaryAmount fromAmount = Monetary.getDefaultAmountFactory().setCurrency(fromCurrency).setNumber(amount).create();
 		 CurrencyConversion conversion = MonetaryConversions.getConversion(toCurrency);
