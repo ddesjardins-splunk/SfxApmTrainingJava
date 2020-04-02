@@ -15,17 +15,16 @@ How to build: ( linux )
     
 4. Set Environment Variables
 
-  
-  #SIGNALFX_ENDPOINT_URL='http://localhost:9080/v1/trace' - only required if Agent is on another host
+    #SIGNALFX_ENDPOINT_URL='http://localhost:9080/v1/trace' - only required if Agent is on another host
 
-  SIGNALFX_INGEST_URL=https://ingest.us0.signalfx.com
-  SIGNALFX_SERVICE_NAME=SfxCurrencyConverterInstrumented
-  SIGNALFX_TOKEN=<YourTokenHere>
+    SIGNALFX_INGEST_URL=https://ingest.us0.signalfx.com
+    SIGNALFX_SERVICE_NAME=SfxCurrencyConverterInstrumented
+    SIGNALFX_TOKEN=<YourTokenHere>
 
 5. Run the Eaxmple
 
-mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverterInstrumented
+    mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverterInstrumented
 
-#Not Instrumented version.
+    #Not Instrumented version.
 
-mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverter
+    mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverter
