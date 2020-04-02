@@ -59,7 +59,7 @@ public class SfxCurrencyConverterInstrumented {
     
     
 public static void main(String[] args) throws Exception {
-    	
+		System.out.println("Please enter conversion amount: ");
     	//Enter data using BufferReader 
         BufferedReader reader =  
                    new BufferedReader(new InputStreamReader(System.in)); 
