@@ -36,4 +36,6 @@ How to build: ( linux )
     
     mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverterServer"
     
+    Then Goto: http://localhost:8888/?amt=<amountToConvert>. example http://localhost:8888/?amt=100
+    
     
