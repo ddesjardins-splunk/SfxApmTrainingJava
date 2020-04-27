@@ -1,5 +1,6 @@
-SignalFX Java Training examples
+SignalFX Java Training example
 
+Assumes properly setup SignalFx Smart Agent as described here: https://docs.signalfx.com/en/latest/apm2/apm2-getting-started/apm2-smart-agent.html
 
 How to build: ( linux )
 
