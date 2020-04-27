@@ -60,13 +60,11 @@ public class SfxCurrencyConverterInstrumented extends SfxCurrencyConverter {
 	protected void convertMyAmount(BigDecimal amount) {
 		final Span span = s_tracer.buildSpan("convertMyAmount").start();
 		try (Scope scope = s_tracer.scopeManager().activate(span)) {
-				for (Map.Entry<String,String> from : fromMap.entrySet())  { 
-					//System.out.println("Key = " + from.getKey() + ", Value = " + from.getValue()); 
-					for (Map.Entry<String,String> to : toMap.entrySet())  {
-						//System.out.println("Key = " + to.getKey() +  ", Value = " + to.getValue());
-						doConversion ( amount, from.getValue(),  from.getKey(), to.getValue(), to.getKey() );
-					}
+			for (Map.Entry<String,String> from : fromMap.entrySet())  { 
+				for (Map.Entry<String,String> to : toMap.entrySet())  {
+					doConversion ( amount, from.getValue(),  from.getKey(), to.getValue(), to.getKey() );
 				}
+			}
 		} finally {
 			span.finish();
 		}
