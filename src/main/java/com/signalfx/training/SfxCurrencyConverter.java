@@ -23,14 +23,17 @@ import javax.money.format.MonetaryAmountFormat;
 import javax.money.format.MonetaryFormats;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 
 
 public class SfxCurrencyConverter {
 		
-	private static SfxCurrencyConverter converterInstance = new SfxCurrencyConverter();
 	
-    private static Map<String, String> fromMap = Map.ofEntries(
+	protected ArrayList<String> m_Results = new ArrayList<String>();
+	
+    protected static Map<String, String> fromMap = Map.ofEntries(
     		  new AbstractMap.SimpleEntry<String, String>("United states", "USD"),
     		  new AbstractMap.SimpleEntry<String, String>("Great Britain", "GBP"),
     		  new AbstractMap.SimpleEntry<String, String>("India", "INR"),
@@ -39,7 +42,7 @@ public class SfxCurrencyConverter {
     		  
     		);
     
-    private static Map<String, String> toMap = Map.ofEntries(
+    protected static Map<String, String> toMap = Map.ofEntries(
     		  new AbstractMap.SimpleEntry<String, String>("France", "EUR"),
     		  new AbstractMap.SimpleEntry<String, String>("Switzerland", "CHF"),
     		  new AbstractMap.SimpleEntry<String, String>("Germany", "EUR"),
@@ -48,7 +51,31 @@ public class SfxCurrencyConverter {
     		);
     
     
+    private void doConversion ( BigDecimal amount, String fromCurrency, String fromLocale,  String toCurrency, String toLocale) {
+    	MonetaryAmount fromAmount = Monetary.getDefaultAmountFactory().setCurrency(fromCurrency).setNumber(amount).create();
+		 CurrencyConversion conversion = MonetaryConversions.getConversion(toCurrency);
+		 MonetaryAmount convertedCurrency = fromAmount.with(conversion);
+		 
+		 MonetaryAmountFormat formatUS = MonetaryFormats.getAmountFormat(Locale.US);
+		 String formatted = formatUS.format(convertedCurrency);
+		 
+		 m_Results.add( amount + " in " + fromLocale + " (" + fromCurrency + ") is equivalent to " + formatted + " in " + toLocale );	
+    }
 
+    protected void convertMyAmount(BigDecimal amount) throws Exception {
+    	m_Results.clear();
+    	for (Map.Entry<String,String> from : fromMap.entrySet())  {
+    		 
+    		 for (Map.Entry<String,String> to : toMap.entrySet())  {
+   
+    			 doConversion ( amount, from.getValue(),  from.getKey(), to.getValue(), to.getKey() );
+    		 }
+    	 }
+    }
+    public  ArrayList<String> getResults() {
+    	return m_Results;
+    }
+    
     public static void main(String[] args) throws Exception {
     	System.out.println("Please enter conversion amount: ");
     	
@@ -63,51 +90,16 @@ public class SfxCurrencyConverter {
             		System.err.println("Please enter an amount to convert !!");
             		System.exit(1);
             	} else {
-            		converterInstance.convertMyAmount(new BigDecimal(valueToConvert));
-            		// The sleep is here below because the Tracer object is not fully shutdown when the app exits, thus throwing exeception
-            		// in production situations this will not be  the case as this is a short-lived application.
-            		//Thread.sleep(3000);  	
-          }   
+            		SfxCurrencyConverter converter = new SfxCurrencyConverter();
+            		converter.convertMyAmount(new BigDecimal(valueToConvert));
+            		for (Iterator<String> it = converter.getResults().iterator() ; it.hasNext() ; ) {
+            			System.out.println(it.next());
+            		}
+            		
+            	}   
         } catch (Exception e) {
         	
         }finally { System.exit(0);}
-    }
- 	
-    /*
-    public static void main(String[] args) throws Exception {
-       if (args.length < 1) {
-    	   System.err.println("Please enter an amount to convert !!");
-    	   System.exit(1);
-      } else {
-        	converterInstance.convertMyAmount(new BigDecimal(args[0]));
-        	// The sleep is here below because the Tracer object is not fully shutdown when the app exits, thus throwing exeception
-        	// in production situations this will not be  the case as this is a short-lived application.
-        	Thread.sleep(3000);
-      }   
-    }
- */
-    private void doConversion ( BigDecimal amount, String fromCurrency, String fromLocale,  String toCurrency, String toLocale) {
-    	MonetaryAmount fromAmount = Monetary.getDefaultAmountFactory().setCurrency(fromCurrency).setNumber(amount).create();
-		 CurrencyConversion conversion = MonetaryConversions.getConversion(toCurrency);
-		 MonetaryAmount convertedCurrency = fromAmount.with(conversion);
-		 
-		 MonetaryAmountFormat formatUS = MonetaryFormats.getAmountFormat(Locale.US);
-		 String formatted = formatUS.format(convertedCurrency);
-		 
-		 System.out.println(amount + " in " + fromLocale + " (" + fromCurrency + ") is equivalent to " + formatted + " in " + toLocale );	
-    }
-
-    private void convertMyAmount(BigDecimal amount) {
-    	 for (Map.Entry<String,String> from : fromMap.entrySet())  {
-    		 
-    		 //System.out.println("Key = " + from.getKey() + ", Value = " + from.getValue()); 
-    		 
-    		 for (Map.Entry<String,String> to : toMap.entrySet())  {
-    			 //System.out.println("Key = " + to.getKey() +  ", Value = " + to.getValue());
-    			 
-    			 doConversion ( amount, from.getValue(),  from.getKey(), to.getValue(), to.getKey() );
-    		 }
-    	 }
     }
     
 }

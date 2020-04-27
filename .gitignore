@@ -4,3 +4,4 @@
 /.resourceCache
 .classpath
 .project
+.DS*
