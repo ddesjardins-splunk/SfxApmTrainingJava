@@ -24,8 +24,16 @@ How to build: ( linux )
 
 5. Run the Eaxmple
 
-    mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverterInstrumented
+    mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverterInstrumented"
 
     #Not Instrumented version.
 
-    mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverter
+    mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverter"
+    
+    #Optional web server version:
+    
+    you can run this example with a Jetty webserver also.
+    
+    mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverterServer"
+    
+    
