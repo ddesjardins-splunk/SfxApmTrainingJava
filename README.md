@@ -24,6 +24,8 @@ How to build: ( linux )
 
 5. Run the Eaxmple
 
+    # Run the instrumented version here:
+
     mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverterInstrumented"
 
     #Not Instrumented version.
