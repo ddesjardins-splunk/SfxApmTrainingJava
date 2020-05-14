@@ -17,6 +17,7 @@ How to build: ( linux )
 4. Set Environment Variables
 
     #SIGNALFX_ENDPOINT_URL='http://localhost:9080/v1/trace' - only required if Agent is on another host
+    
     SIGNALFX_INGEST_URL=https://ingest.YourRealm.signalfx.com
     SIGNALFX_SERVICE_NAME=SfxCurrencyConverterInstrumented
     SIGNALFX_TOKEN=<YourTokenHere>
@@ -33,7 +34,7 @@ How to build: ( linux )
     
     # Optional web server version:
     
-    # Jetty - you can run this example with a Jetty webserver.
+    Jetty - you can run this example with a Jetty webserver.
     
     mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverterServer"
     
