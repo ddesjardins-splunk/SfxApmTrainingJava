@@ -1,0 +1,10 @@
+
+
+Running java examples environment variables
+
+SIGNALFX_ENDPOINT_URL='http://<location of agent>:9080/v1/trace'
+SIGNALFX_INGEST_URL=https://ingest.<realm>.signalfx.com
+SIGNALFX_SERVICE_NAME=SfxCurrencyConverterInstrumented
+SIGNALFX_TOKEN=
+
+

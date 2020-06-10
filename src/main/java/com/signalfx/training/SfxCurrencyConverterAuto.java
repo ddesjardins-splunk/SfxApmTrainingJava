@@ -27,7 +27,6 @@ import javax.money.format.MonetaryFormats;
 import java.util.Iterator;
 import java.util.Locale;
 
-import com.signalfx.tracing.api.Trace;
 
 
 
@@ -36,7 +35,7 @@ import com.signalfx.tracing.api.Trace;
 public class SfxCurrencyConverterAuto extends SfxCurrencyConverter {
 		
 	
-	@Trace(operationName = "doConversion")
+
     private void doConversion ( BigDecimal amount, String fromCurrency, String fromLocale,  String toCurrency, String toLocale) {
         MonetaryAmount fromAmount = Monetary.getDefaultAmountFactory().setCurrency(fromCurrency).setNumber(amount).create();
 		CurrencyConversion conversion = MonetaryConversions.getConversion(toCurrency);
@@ -48,7 +47,7 @@ public class SfxCurrencyConverterAuto extends SfxCurrencyConverter {
 		m_Results.add(amount + " in " + fromLocale + " (" + fromCurrency + ") is equivalent to " + formatted + " in " + toLocale );	
    }
 
-   @Trace(operationName = "convertMyAmount")
+  
    protected void convertMyAmount(BigDecimal amount) {
 	   m_Results.clear();
 	  
