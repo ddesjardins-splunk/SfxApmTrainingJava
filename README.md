@@ -21,6 +21,9 @@ How to build: ( linux )
     SIGNALFX_INGEST_URL=https://ingest.YourRealm.signalfx.com
     SIGNALFX_SERVICE_NAME=SfxCurrencyConverterInstrumented
     SIGNALFX_TOKEN=<YourTokenHere>
+     
+    NOTE SIGNALFX_TRACE_METHODS is only required for Auto-Instrunentation of custom methods
+    SIGNALFX_TRACE_METHODS= package.class[method1,method2] 
 
 5. Run the Example:
 
@@ -40,4 +43,11 @@ How to build: ( linux )
     
     Then Goto: http://localhost:8888/?amt=amountToConvert. example http://localhost:8888/?amt=100
     
+    # Auto-Instrumnentation of Custom Methods version:
     
+     Set the Folowing Environment Variable:
+     SIGNALFX_TRACE_METHODS=com.signalfx.training.SfxCurrencyConverterAuto[doConversion,convertMyAmount]
+
+     mvn exec:java -Dexec.mainClass="com.signalfx.training.SfxCurrencyConverterServerAuto"
+     
+     Then Goto:  http://localhost:8888/?amt=amountToConvert. example http://localhost:8888/?amt=100
