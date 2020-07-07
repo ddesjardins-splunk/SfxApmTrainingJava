@@ -1,0 +1,53 @@
+---
+# *Required* The access token for the org that you wish to send metrics to.
+signalFxAccessToken: {"#from": "/etc/signalfx/token"}
+ingestUrl: {"#from": "/etc/signalfx/ingest_url", default: "https://ingest.signalfx.com"}
+apiUrl: {"#from": "/etc/signalfx/api_url", default: "https://api.signalfx.com"}
+cluster: {"#from": "/etc/signalfx/cluster", optional: true}
+traceEndpointUrl: "https://ingest.us1.signalfx.com/v2/trace"
+intervalSeconds: 10
+
+logging:
+  # Valid values are 'debug', 'info', 'warning', and 'error'
+  level: debug
+
+# observers are what discover running services in the environment
+observers:
+  - type: host
+
+monitors:
+  - {"#from": "/etc/signalfx/monitors/*.yaml", flatten: true, optional: true}
+  - type: host-metadata
+  - type: processlist
+  - type: cpu
+  - type: filesystems
+  - type: disk-io
+  - type: net-io
+  - type: load
+  - type: memory
+  - type: vmem
+  - type: signalfx-forwarder
+    listenAddress: 0.0.0.0:9800
+    defaultSpanTags:
+      environment: TestEnv
+  - type: collectd/genericjmx
+    host: 192.168.0.122
+    port: 1099
+    mBeanDefinitions:
+      threading:
+        objectName: java.lang:type=Threading
+        values:
+        - type: gauge
+          table: false
+          instancePrefix: jvm.threads.count
+          attribute: ThreadCount
+  - type: jmx
+    host: 192.168.0.122
+    port: 1099 # NOT RMI port, Remote JMX Port
+    groovyScript: {"#from": "/etc/signalfx/deadlockedThreads.groovy", raw: true}
+
+
+writer:
+  traceExportFormat: sapm
+  logDatapoints: true
+#  logTraceSpans: true
