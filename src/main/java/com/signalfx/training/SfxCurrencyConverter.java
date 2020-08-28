@@ -24,6 +24,7 @@ import javax.money.format.MonetaryFormats;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -33,22 +34,25 @@ public class SfxCurrencyConverter {
 	
 	protected ArrayList<String> m_Results = new ArrayList<String>();
 	
-    protected static Map<String, String> fromMap = Map.ofEntries(
-    		  new AbstractMap.SimpleEntry<String, String>("United states", "USD"),
-    		  new AbstractMap.SimpleEntry<String, String>("Great Britain", "GBP"),
-    		  new AbstractMap.SimpleEntry<String, String>("India", "INR"),
-    		  new AbstractMap.SimpleEntry<String, String>("China", "CNY"),
-    		  new AbstractMap.SimpleEntry<String, String>("Singapore", "SGD")
-    		  
-    		);
-    
-    protected static Map<String, String> toMap = Map.ofEntries(
-    		  new AbstractMap.SimpleEntry<String, String>("France", "EUR"),
-    		  new AbstractMap.SimpleEntry<String, String>("Switzerland", "CHF"),
-    		  new AbstractMap.SimpleEntry<String, String>("Germany", "EUR"),
-    		  new AbstractMap.SimpleEntry<String, String>("Malaysia", "MYR"),
-    		  new AbstractMap.SimpleEntry<String, String>("Japan", "JPY")
-    		);
+	protected static Map<String, String> fromMap;
+	static {
+		fromMap = new HashMap<>();
+		fromMap.put("United states", "USD");
+		fromMap.put("Great Britain", "GBP");
+		fromMap.put("India", "INR");
+		fromMap.put("China", "CNY");
+		fromMap.put("Singapore", "SGD");
+	}
+	
+	protected static Map<String, String> toMap;
+	static {
+		toMap = new HashMap<>();
+		toMap.put("France", "EUR");
+		toMap.put("Switzerland", "CHF");
+		toMap.put("Germany", "EUR");
+		toMap.put("Malaysia", "MYR");
+		toMap.put("Japan", "JPY");
+	}
     
     
     private void doConversion ( BigDecimal amount, String fromCurrency, String fromLocale,  String toCurrency, String toLocale) {

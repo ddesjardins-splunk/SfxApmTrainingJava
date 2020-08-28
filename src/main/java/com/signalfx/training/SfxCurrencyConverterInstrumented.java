@@ -42,7 +42,7 @@ public class SfxCurrencyConverterInstrumented extends SfxCurrencyConverter {
     	final Span span = s_tracer.buildSpan("doConversion").start();
    	    try (Scope scope = s_tracer.scopeManager().activate(span)) {
    	    	span.setTag("span.kind", "SERVER");
-   	    	span.setTag("userid","userid");
+   	    	span.setTag("userid","derekd");
    	    	 
    	    	MonetaryAmount fromAmount = Monetary.getDefaultAmountFactory().setCurrency(fromCurrency).setNumber(amount).create();
    			CurrencyConversion conversion = MonetaryConversions.getConversion(toCurrency);
